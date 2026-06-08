@@ -1,11 +1,16 @@
 from fastapi import FastAPI
 
+from app.settings import Settings
+
+settings = Settings()
+
 app = FastAPI(
     title='Raízes do Nordeste API',
     version='1.0.0',
+    description='API para rede de lanchonetes Raízes do Nordeste',
 )
 
 
 @app.get('/')
-async def root():
-    return {'message': 'Raízes do Nordeste API'}
+def root():
+    return {'message': 'Teste, API funcionando!'}
