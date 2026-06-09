@@ -14,7 +14,8 @@ dependencies = [
     "pwdlib[argon2] (>=0.3.0,<0.4.0)",
     "pyjwt[crypto] (>=2.13.0,<3.0.0)",
     "python-multipart (>=0.0.32,<0.0.33)",
-    "httpx (>=0.28.1,<0.29.0)"
+    "httpx (>=0.28.1,<0.29.0)",
+    "tzdata (>=2026.2,<2027.0)"
 ]
 
 

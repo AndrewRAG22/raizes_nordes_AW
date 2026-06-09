@@ -11,11 +11,12 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import (
-    registry,
     Mapped,
     mapped_column,
+    registry,
     relationship,
 )
+
 table_registry = registry()
 
 
@@ -56,7 +57,7 @@ class TipoMovimentacao(str, enum.Enum):
 
 
 @table_registry.mapped_as_dataclass
-class Usuario():
+class Usuario:
     __tablename__ = 'usuarios'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
@@ -81,7 +82,7 @@ class Usuario():
 
 
 @table_registry.mapped_as_dataclass
-class Unidade():
+class Unidade:
     __tablename__ = 'unidades'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
@@ -99,7 +100,7 @@ class Unidade():
 
 
 @table_registry.mapped_as_dataclass
-class Produto():
+class Produto:
     __tablename__ = 'produtos'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
@@ -116,7 +117,7 @@ class Produto():
 
 
 @table_registry.mapped_as_dataclass
-class Estoque():
+class Estoque:
     __tablename__ = 'estoques'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
@@ -136,7 +137,7 @@ class Estoque():
 
 
 @table_registry.mapped_as_dataclass
-class MovimentacaoEstoque():
+class MovimentacaoEstoque:
     __tablename__ = 'movimentacoes_estoque'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
@@ -156,7 +157,7 @@ class MovimentacaoEstoque():
 
 
 @table_registry.mapped_as_dataclass
-class Pedido():
+class Pedido:
     __tablename__ = 'pedidos'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
@@ -192,7 +193,7 @@ class Pedido():
 
 
 @table_registry.mapped_as_dataclass
-class ItemPedido():
+class ItemPedido:
     __tablename__ = 'itens_pedido'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
@@ -208,7 +209,7 @@ class ItemPedido():
 
 
 @table_registry.mapped_as_dataclass
-class Pagamento():
+class Pagamento:
     __tablename__ = 'pagamentos'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
@@ -221,7 +222,7 @@ class Pagamento():
         default=StatusPagamento.PENDENTE,
     )
     payload_retorno: Mapped[Optional[str]] = mapped_column(
-    Text, nullable=True, default=None
+        Text, nullable=True, default=None
     )
     criado_em: Mapped[datetime] = mapped_column(
         init=False, server_default=func.now()
@@ -233,7 +234,7 @@ class Pagamento():
 
 
 @table_registry.mapped_as_dataclass
-class Fidelidade():
+class Fidelidade:
     __tablename__ = 'fidelidade'
 
     id: Mapped[int] = mapped_column(primary_key=True, init=False)
