@@ -5,27 +5,35 @@ def test_registrar_usuario(client):
     response = client.post(
         '/auth/registrar',
         json={
-            'username': 'Irinel',
+            'username': 'Irinel1',
             'nome': 'irinel Soares',
-            'email': 'irinel@email.com',
+            'email': 'irinel1@email.com',
             'senha': '12345',
             'consentimento_lgpd': True,
         },
     )
     assert response.status_code == HTTPStatus.CREATED
-    assert response.json()['email'] == 'irinel@email.com'
+    assert response.json()['email'] == 'irinel1@email.com'
     assert response.json()['perfil'] == 'CLIENTE'
 
 
 def test_registrar_usuario_duplicado(client):
+    client.post(
+        '/auth/registrar',
+        json={
+            'username': 'Irinel',
+            'nome': 'irinel Soares',
+            'email': 'irinel1@email.com',
+            'senha': '12345',
+        },
+    )
     response = client.post(
         '/auth/registrar',
         json={
-            'username': 'irinel',
+            'username': 'Irinel',
             'nome': 'irinel Soares',
-            'email': 'irinel@email.com',
+            'email': 'irinel1@email.com',
             'senha': '12345',
-            'consentimento_lgpd': True,
         },
     )
     assert response.status_code == HTTPStatus.CONFLICT

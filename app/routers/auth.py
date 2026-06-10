@@ -1,6 +1,7 @@
+from http import HTTPStatus
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -23,7 +24,7 @@ OAuth2Form = Annotated[OAuth2PasswordRequestForm, Depends()]
 @router.post(
     '/registrar',
     response_model=UsuarioPublico,
-    status_code=status.HTTP_201_CREATED,
+    status_code=HTTPStatus.CREATED,
 )
 def registrar(dados: UsuarioSchema, session: DBSession):
     usuario_existente = session.scalar(
@@ -34,7 +35,7 @@ def registrar(dados: UsuarioSchema, session: DBSession):
     )
     if usuario_existente:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
+            status_code=HTTPStatus.CONFLICT,
             detail='Email ou username já cadastrado',
         )
 
@@ -71,7 +72,7 @@ def login(
 
     if not usuario or not verificar_senha(form_data.password, usuario.senha):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=HTTPStatus.UNAUTHORIZED,
             detail='Email ou senha inválidos',
         )
 

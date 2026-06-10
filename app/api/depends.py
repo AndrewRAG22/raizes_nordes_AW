@@ -1,6 +1,7 @@
+from http import HTTPStatus
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException
 
 from app.infra.models import PerfilUsuario, Usuario
 from app.infra.security import get_current_user
@@ -13,7 +14,7 @@ def get_usuario_admin(usuario: User):
 
     if perfil_do_usuario != PerfilUsuario.ADMIN:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
+            status_code=HTTPStatus.FORBIDDEN,
             detail='Você não tem permissão de administrador.',
         )
 
@@ -28,7 +29,7 @@ def get_usuario_gerente(usuario: User):
 
     if not (eh_admin or eh_gerente):
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
+            status_code=HTTPStatus.FORBIDDEN,
             detail='Você precisa ser Gerente ou Admin para acessar aqui.',
         )
 
