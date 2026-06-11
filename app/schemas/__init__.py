@@ -16,6 +16,8 @@ from .enums import (
 from .estoque import EstoquePublico as EstoquePublico
 from .estoque import MovimentacaoPublico as MovimentacaoPublico
 from .estoque import MovimentacaoSchema as MovimentacaoSchema
+from .pagamentos import PagamentoPublico as PagamentoPublico
+from .pagamentos import PagamentoSchema as PagamentoSchema
 from .pedido import AtualizarStatusSchema as AtualizarStatusSchema
 from .pedido import ItemPedidoPublico as ItemPedidoPublico
 from .pedido import ItemPedidoSchema as ItemPedidoSchema
