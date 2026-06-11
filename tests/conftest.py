@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 
 from app.infra.database import get_session
-from app.infra.models import Usuario, table_registry
+from app.infra.models import PerfilUsuario, Usuario, table_registry
 from app.infra.security import criar_token_de_acesso, gerar_hash_da_senha
 from app.main import app
 
@@ -58,3 +58,23 @@ def usuario(session):
 @pytest.fixture
 def token(usuario):
     return criar_token_de_acesso({'sub': usuario.email})
+
+
+@pytest.fixture
+def usuario_gerente(session):
+    usuario = Usuario(
+        username='gerente',
+        nome='Cristina Nascimento',
+        email='Cris_Gerente@email.com',
+        senha=gerar_hash_da_senha('123456'),
+        perfil=PerfilUsuario.GERENTE,
+    )
+    session.add(usuario)
+    session.commit()
+    session.refresh(usuario)
+    return usuario
+
+
+@pytest.fixture
+def token_gerente(usuario_gerente):
+    return criar_token_de_acesso({'sub': usuario_gerente.email})

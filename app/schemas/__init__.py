@@ -13,6 +13,8 @@ from .enums import (
 from .enums import (
     TipoMovimentacao as TipoMovimentacao,
 )
+from .unidade import UnidadePublico as UnidadePublico
+from .unidade import UnidadeSchema as UnidadeSchema
 from .usuario import TokenSchema as TokenSchema
 from .usuario import UsuarioPublico as UsuarioPublico
 from .usuario import UsuarioSchema as UsuarioSchema
