@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 
 from app.infra.database import get_session
-from app.infra.models import PerfilUsuario, Usuario, table_registry
+from app.infra.models import Fidelidade, PerfilUsuario, Usuario, table_registry
 from app.infra.security import criar_token_de_acesso, gerar_hash_da_senha
 from app.main import app
 
@@ -48,8 +48,12 @@ def usuario(session):
         nome='Andrew Lançamento',
         email='Araujo@email.com',
         senha=gerar_hash_da_senha('123456'),
+        consentimento_lgpd=True,
     )
     session.add(usuario)
+    session.flush()
+    fidelidade = Fidelidade(usuario_id=usuario.id, consentimento=True)
+    session.add(fidelidade)
     session.commit()
     session.refresh(usuario)
     return usuario

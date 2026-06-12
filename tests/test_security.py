@@ -21,7 +21,7 @@ def test_token():
 def test_acesso_negado_sem_token(client):
     response = client.delete('/users/me')
     assert response.status_code == HTTPStatus.UNAUTHORIZED
-    assert response.json()['detail'] == 'Not authenticated'
+    assert response.json()['error'] == 'NAO_AUTENTICADO'
 
 
 def test_acesso_com_token_invalido(client):

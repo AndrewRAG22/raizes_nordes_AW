@@ -218,3 +218,21 @@ class Fidelidade:
     usuario: Mapped['Usuario'] = relationship(
         back_populates='fidelidade', init=False
     )
+
+
+@table_registry.mapped_as_dataclass
+class LogAuditoria:
+    __tablename__ = 'logs_auditoria'
+
+    id: Mapped[int] = mapped_column(primary_key=True, init=False)
+    acao: Mapped[str] = mapped_column(String(50))
+    usuario_id: Mapped[int | None] = mapped_column(
+        ForeignKey('usuarios.id'), nullable=True, default=None
+    )
+
+    detalhe: Mapped[str | None] = mapped_column(
+        Text, nullable=True, default=None
+    )
+    criado_em: Mapped[datetime] = mapped_column(
+        init=False, server_default=func.now()
+    )

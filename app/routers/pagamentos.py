@@ -8,6 +8,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.infra.database import get_session
+from app.infra.logs import registrar_log
 from app.infra.models import Pagamento, Pedido, Usuario
 from app.infra.security import get_current_user
 from app.schemas import PagamentoPublico, PagamentoSchema
@@ -77,6 +78,13 @@ def solicitar_pagamento(
         forma_pagamento=dados.forma_pagamento,
         status=status_pgto,
         payload_retorno=json.dumps(retorno),
+    )
+
+    registrar_log(
+        session,
+        'Pagamento processado',
+        usuario.id,
+        f'Pedido {dados.pedido_id} Status {status_pgto}',
     )
     session.add(pagamento)
     session.commit()

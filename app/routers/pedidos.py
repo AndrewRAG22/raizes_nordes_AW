@@ -6,6 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.infra.database import get_session
+from app.infra.logs import registrar_log
 from app.infra.models import (
     Estoque,
     ItemPedido,
@@ -82,10 +83,19 @@ def criar_pedido(
             preco_unitario=produto.preco,
         )
         session.add(item_pedido)
+
         estoque.quantidade -= quantidade
+
+    registrar_log(
+        session,
+        'Pedido Criado',
+        usuario.id,
+        f'Pedido {pedido.id} realizado no canal {dados.canal} criado',
+    )
 
     session.commit()
     session.refresh(pedido)
+
     return pedido
 
 
@@ -93,13 +103,13 @@ def criar_pedido(
 def listar_pedidos(
     session: DBSession,
     usuario: CurrentUser,
-    canal: str | None = None,
+    canalPedido: str | None = None,
     status: str | None = None,
 ):
     query = select(Pedido).where(Pedido.cliente_id == usuario.id)
 
-    if canal:
-        query = query.where(Pedido.canal == canal)
+    if canalPedido:
+        query = query.where(Pedido.canal == canalPedido)
     if status:
         query = query.where(Pedido.status == status)
 
@@ -147,6 +157,13 @@ def atualizar_status(
         )
 
     pedido.status = dados.status
+    registrar_log(
+        session,
+        'Pedido alterado',
+        usuario.id,
+        f'Pedido {pedido_id} foi alterado para o status {dados.status}',
+    )
+
     session.commit()
     session.refresh(pedido)
     return pedido
@@ -173,4 +190,10 @@ def cancelar_pedido(pedido_id: int, session: DBSession, usuario: CurrentUser):
         )
 
     pedido.status = StatusPedido.CANCELADO
+    registrar_log(
+        session,
+        'Pedido Cancelado',
+        usuario.id,
+        f'Pedido {pedido_id} foi cancelado com sucesso',
+    )
     session.commit()

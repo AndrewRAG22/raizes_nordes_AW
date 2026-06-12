@@ -7,6 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.infra.database import get_session
+from app.infra.logs import registrar_log
 from app.infra.models import Fidelidade, Usuario
 from app.infra.security import (
     criar_token_de_acesso,
@@ -55,6 +56,14 @@ def registrar(dados: UsuarioSchema, session: DBSession):
             consentimento=True,
         )
         session.add(fidelidade)
+
+    registrar_log(
+        session,
+        'Usuario registrado',
+        novo_usuario.id,
+        f'Usuario {novo_usuario.username}, email {novo_usuario.email}',
+    )
+
     session.commit()
     session.refresh(novo_usuario)
 
