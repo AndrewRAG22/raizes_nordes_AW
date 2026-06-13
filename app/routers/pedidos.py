@@ -69,7 +69,7 @@ def criar_pedido(
     pedido = Pedido(
         cliente_id=usuario.id,
         unidade_id=dados.unidade_id,
-        canal=dados.canal,
+        canal=dados.canalPedido,
         total=total,
     )
     session.add(pedido)
@@ -90,7 +90,7 @@ def criar_pedido(
         session,
         'Pedido Criado',
         usuario.id,
-        f'Pedido {pedido.id} realizado no canal {dados.canal} criado',
+        f'Pedido {pedido.id} realizado no canal {dados.canalPedido} criado',
     )
 
     session.commit()
@@ -105,7 +105,10 @@ def listar_pedidos(
     usuario: CurrentUser,
     canalPedido: str | None = None,
     status: str | None = None,
+    page: int = 1,
+    limit: int = 20,
 ):
+    offset = (page - 1) * limit
     query = select(Pedido).where(Pedido.cliente_id == usuario.id)
 
     if canalPedido:
@@ -113,8 +116,7 @@ def listar_pedidos(
     if status:
         query = query.where(Pedido.status == status)
 
-    return session.scalars(query).all()
-
+    return session.scalars(query.offset(offset).limit(limit)).all()
 
 @router.get('/{pedido_id}', response_model=PedidoPublico)
 def buscar_pedido(pedido_id: int, session: DBSession, usuario: CurrentUser):

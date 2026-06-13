@@ -24,7 +24,7 @@ def criar_pedido(client, session, token):
         headers={'Authorization': f'Bearer {token}'},
         json={
             'unidade_id': unidade.id,
-            'canal': 'APP',
+            'canalPedido': 'APP',
             'itens': [{'produto_id': produto.id, 'quantidade': 1}],
         },
     )

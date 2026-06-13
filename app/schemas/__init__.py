@@ -27,6 +27,8 @@ from .pedido import PedidoPublico as PedidoPublico
 from .pedido import PedidoSchema as PedidoSchema
 from .produto import ProdutoPublico as ProdutoPublico
 from .produto import ProdutoSchema as ProdutoSchema
+from .promocao import PromocaoPublico as PromocaoPublico
+from .promocao import PromocaoSchema as PromocaoSchema
 from .unidade import UnidadePublico as UnidadePublico
 from .unidade import UnidadeSchema as UnidadeSchema
 from .usuario import TokenSchema as TokenSchema

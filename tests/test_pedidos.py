@@ -27,13 +27,13 @@ def test_criar_pedido(client, session, token):
         headers={'Authorization': f'Bearer {token}'},
         json={
             'unidade_id': unidade.id,
-            'canal': 'APP',
+            'canalPedido': 'APP',
             'itens': [{'produto_id': produto.id, 'quantidade': 1}],
         },
     )
     assert response.status_code == HTTPStatus.CREATED
     assert response.json()['total'] == float(produto.preco)
-    assert response.json()['canal'] == 'APP'
+    assert response.json()['canalPedido'] == 'APP'
 
 
 def test_criar_pedido_estoque_insuficiente(client, session, token):
@@ -44,7 +44,7 @@ def test_criar_pedido_estoque_insuficiente(client, session, token):
         headers={'Authorization': f'Bearer {token}'},
         json={
             'unidade_id': unidade.id,
-            'canal': 'TOTEM',
+            'canalPedido': 'TOTEM',
             'itens': [{'produto_id': produto.id, 'quantidade': 20}],
         },
     )
@@ -63,7 +63,7 @@ def test_criar_pedido_produto_inexistente(client, session, token):
         headers={'Authorization': f'Bearer {token}'},
         json={
             'unidade_id': unidade.id,
-            'canal': 'WEB',
+            'canalPedido': 'WEB',
             'itens': [{'produto_id': 9999, 'quantidade': 10}],
         },
     )
@@ -78,7 +78,7 @@ def test_listar_pedidos(client, session, token):
         headers={'Authorization': f'Bearer {token}'},
         json={
             'unidade_id': unidade.id,
-            'canal': 'APP',
+            'canalPedido': 'APP',
             'itens': [{'produto_id': produto.id, 'quantidade': 1}],
         },
     )
@@ -99,7 +99,7 @@ def test_cancelar_pedido(client, session, token):
         headers={'Authorization': f'Bearer {token}'},
         json={
             'unidade_id': unidade.id,
-            'canal': 'APP',
+            'canalPedido': 'APP',
             'itens': [{'produto_id': produto.id, 'quantidade': 1}],
         },
     ).json()

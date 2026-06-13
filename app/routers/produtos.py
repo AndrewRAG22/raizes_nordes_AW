@@ -16,9 +16,11 @@ DBSession = Annotated[Session, Depends(get_session)]
 
 
 @router.get('/', response_model=list[ProdutoPublico])
-def listar_produtos(session: DBSession):
+def listar_produtos(session: DBSession, page: int = 1, limit: int = 20):
+    offset = (page - 1) * limit
     return session.scalars(
         select(Produto).where(Produto.disponivel.is_(True))
+        .offset(offset).limit(limit)
     ).all()
 
 

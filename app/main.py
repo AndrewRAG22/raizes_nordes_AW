@@ -10,6 +10,7 @@ from app.routers.fidelidade import router as fidelidade_router
 from app.routers.pagamentos import router as pagamentos_router
 from app.routers.pedidos import router as pedidos_router
 from app.routers.produtos import router as produtos_router
+from app.routers.promocoes import router as promocoes_router
 from app.routers.unidades import router as unidades_router
 from app.routers.users import router as users_router
 from app.settings import Settings
@@ -57,6 +58,7 @@ app.include_router(estoque_router)
 app.include_router(pedidos_router)
 app.include_router(pagamentos_router)
 app.include_router(fidelidade_router)
+app.include_router(promocoes_router)
 
 
 @app.get('/')

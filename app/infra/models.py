@@ -236,3 +236,16 @@ class LogAuditoria:
     criado_em: Mapped[datetime] = mapped_column(
         init=False, server_default=func.now()
     )
+
+
+@table_registry.mapped_as_dataclass
+class Promocao:
+    __tablename__ = 'promocoes'
+
+    id: Mapped[int] = mapped_column(primary_key=True, init=False)
+    nome: Mapped[str] = mapped_column(String(100))
+    desconto: Mapped[float] = mapped_column(Numeric(5, 3))
+    ativa: Mapped[bool] = mapped_column(default=True)
+    criado_em: Mapped[datetime] = mapped_column(
+        init=False, server_default=func.now()
+    )

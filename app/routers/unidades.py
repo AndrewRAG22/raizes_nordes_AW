@@ -16,9 +16,11 @@ DBSession = Annotated[Session, Depends(get_session)]
 
 
 @router.get('/', response_model=list[UnidadePublico])
-def listar_unidades(session: DBSession):
+def listar_unidades(session: DBSession, page: int = 1, limit: int = 20):
+    offset = (page - 1) * limit
     return session.scalars(
         select(Unidade).where(Unidade.aberta.is_(True))
+        .offset(offset).limit(limit)
     ).all()
 
 
